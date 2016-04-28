@@ -59,12 +59,26 @@ library
   hs-source-dirs:     src
   build-depends:      base             >= 4.8 && < 5
                     , aeson
+                    , aeson-compat
+                    , attoparsec
+                    , base-compat
+                    , blaze-html
+                    , blaze-markup
+                    , bytestring
+                    , directory
+                    , http-media
+                    , lucid
+                    , mtl
+                    , servant >= 0.7
                     , servant-server
+                    , string-conversions
+                    , text
+                    , time
                     , wai
                     , warp
   default-extensions: RecordWildCards
                     , TupleSections
-  exposed-modules:    Lib
+  exposed-modules:    Server
   if flag(dev)
     ghc-options:      -Wall -Werror
   else
