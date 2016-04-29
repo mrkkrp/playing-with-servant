@@ -187,5 +187,31 @@ server4 = return people
 app4 :: Application
 app4 = serve (Proxy :: Proxy PersonAPI) server4
 
+type IOAPI1 = "myfile.txt" :> Get '[JSON] FileContent
+
+newtype FileContent = FileContent
+  { content :: String
+  } deriving Generic
+
+instance ToJSON FileContent
+
+server5 :: Server IOAPI1
+server5 = FileContent <$> liftIO (readFile "myfile.txt")
+
+app5 :: Application
+app5 = serve (Proxy :: Proxy IOAPI1) server5
+
+server6 :: Server IOAPI1
+server6 = do
+  exists <- liftIO (doesFileExist "myfile.txt")
+  if exists
+    then FileContent <$> liftIO (readFile "myfile.txt")
+    else throwError custom404Err
+
+  where custom404Err = err404 { errBody = "it's just not there…" }
+
+app6 :: Application
+app6 = serve (Proxy :: Proxy IOAPI1) server6
+
 startApp :: IO ()
-startApp = run 8081 app4
+startApp = run 8081 app6
