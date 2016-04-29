@@ -30,6 +30,7 @@ import Network.HTTP.Media ((//), (/:))
 import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
+import Servant.HTML.Lucid
 import System.Directory
 import Text.Blaze
 import Text.Blaze.Html.Renderer.Utf8
@@ -146,5 +147,45 @@ server3 = position
 app3 :: Application
 app3 = serve (Proxy :: Proxy API) server3
 
+type PersonAPI = "persons" :> Get '[JSON, HTML] [Person]
+
+data Person = Person
+  { firstName :: String
+  , lastName  :: String
+  } deriving Generic -- for the JSON instance
+
+instance ToJSON Person
+
+-- HTML serialization of a single person
+instance ToHtml Person where
+  toHtml person =
+    tr_ $ do
+      td_ (toHtml $ firstName person)
+      td_ (toHtml $ lastName  person)
+
+  toHtmlRaw = toHtml
+
+-- HTML serialization of a list of persons
+instance ToHtml [Person] where
+  toHtml persons = table_ $ do
+    tr_ $ do
+      th_ "first name"
+      th_ "last name"
+    foldMap toHtml persons
+
+  toHtmlRaw = toHtml
+
+people :: [Person]
+people =
+  [ Person "Isaac"  "Newton"
+  , Person "Albert" "Einstein"
+  ]
+
+server4 :: Server PersonAPI
+server4 = return people
+
+app4 :: Application
+app4 = serve (Proxy :: Proxy PersonAPI) server4
+
 startApp :: IO ()
-startApp = run 8081 app3
+startApp = run 8081 app4

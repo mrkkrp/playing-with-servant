@@ -4,3 +4,5 @@ packages:
 extra-deps:
 - servant-0.7
 - servant-server-0.7
+- servant-lucid-0.7
+- servant-blaze-0.7
