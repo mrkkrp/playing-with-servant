@@ -213,5 +213,13 @@ server6 = do
 app6 :: Application
 app6 = serve (Proxy :: Proxy IOAPI1) server6
 
+type StaticAPI = "static" :> Raw
+
+server7 :: Server StaticAPI
+server7 = serveDirectory "static-files"
+
+app7 :: Application
+app7 = serve (Proxy :: Proxy StaticAPI) server7
+
 startApp :: IO ()
-startApp = run 8081 app6
+startApp = run 8081 app7
