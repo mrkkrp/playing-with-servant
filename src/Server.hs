@@ -221,5 +221,27 @@ server7 = serveDirectory "static-files"
 app7 :: Application
 app7 = serve (Proxy :: Proxy StaticAPI) server7
 
+-- Using another monad for handlers
+
+readerToHandler :: Reader String :~> Handler
+readerToHandler = let f r = return (runReader r "hi") in Nat f
+
+type ReaderAPI = "a" :> Get '[JSON] Int
+            :<|> "b" :> Get '[JSON] String
+
+readerServerT :: ServerT ReaderAPI (Reader String)
+readerServerT = a :<|> b
+  where a :: Reader String Int
+        a = return 1797
+
+        b :: Reader String String
+        b = ask
+
+readerServer :: Server ReaderAPI
+readerServer = enter readerToHandler readerServerT
+
+readerApp :: Application
+readerApp = serve (Proxy :: Proxy ReaderAPI) readerServer
+
 startApp :: IO ()
-startApp = run 8081 app7
+startApp = run 8081 readerApp
