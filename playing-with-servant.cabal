@@ -66,21 +66,25 @@ library
                     , blaze-markup
                     , bytestring
                     , directory
+                    , http-client
                     , http-media
                     , lucid
                     , mtl
                     , servant >= 0.7
+                    , servant-blaze  >= 0.7
+                    , servant-client >= 0.7
+                    , servant-lucid  >= 0.7
                     , servant-server >= 0.7
-                    , servant-lucid >= 0.7
-                    , servant-blaze >= 0.7
                     , string-conversions
                     , text
                     , time
+                    , transformers
                     , wai
                     , warp
   default-extensions: RecordWildCards
                     , TupleSections
-  exposed-modules:    Server
+  exposed-modules:    Client
+                    , Server
   if flag(dev)
     ghc-options:      -Wall -Werror
   else
