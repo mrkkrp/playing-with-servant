@@ -65,6 +65,7 @@ library
                     , blaze-html
                     , blaze-markup
                     , bytestring
+                    , containers
                     , directory
                     , http-client
                     , http-media
@@ -88,7 +89,8 @@ library
                     , warp
   default-extensions: RecordWildCards
                     , TupleSections
-  exposed-modules:    Client
+  exposed-modules:    Authentication
+                    , Client
                     , Docs
                     , Javascript
                     , Server
