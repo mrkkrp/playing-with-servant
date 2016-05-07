@@ -7,9 +7,7 @@
 {-# LANGUAGE ScopedTypeVariables        #-}
 {-# LANGUAGE TypeOperators              #-}
 
-module Server
-  ( startApp )
-where
+module Server where
 
 import Prelude ()
 import Prelude.Compat

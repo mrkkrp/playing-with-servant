@@ -68,6 +68,7 @@ library
                     , directory
                     , http-client
                     , http-media
+                    , http-types
                     , js-jquery
                     , lucid
                     , mtl
@@ -75,6 +76,7 @@ library
                     , servant >= 0.7
                     , servant-blaze  >= 0.7
                     , servant-client >= 0.7
+                    , servant-docs >= 0.7
                     , servant-js >= 0.7
                     , servant-lucid  >= 0.7
                     , servant-server >= 0.7
@@ -87,6 +89,7 @@ library
   default-extensions: RecordWildCards
                     , TupleSections
   exposed-modules:    Client
+                    , Docs
                     , Javascript
                     , Server
   if flag(dev)
